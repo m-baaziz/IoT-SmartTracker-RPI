@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "IoT project to track a stolen item",
   "main": "app.js",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
+    "pi-gpio": "0.0.8"
   },
   "engines": {
     "node": "5.6.0"
