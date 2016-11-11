@@ -4,6 +4,6 @@ console.log("starting ...")
 gpio.open(16, "output", err => {
 	gpio.write(16, 1, () => {
 		console.log("writing ...")
-		gpio.close(16);
+		setTimeout(()=>{gpio.close(16);}, 5000);
 	})
 });
