@@ -1,2 +1,2 @@
 console.log("Hello World");
-console.log("Ohayoo Gosaymasu")
+console.log("Ohayoo Gosaymas")
