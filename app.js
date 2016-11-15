@@ -1,9 +1,16 @@
 import gpio from "pi-gpio"
+import SerialPort from "serialport"
 
-console.log("starting ...")
-gpio.open(16, "output", err => {
-	gpio.write(16, 1, () => {
-		console.log("writing ...")
-		setTimeout(()=>{gpio.close(16);}, 5000);
-	})
+const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600 });
+
+port.on('open', () => {
+	console.log("Port opened")
 });
+
+port.on('data', (data) => {
+  console.log('Data: ' + data);
+});
+
+port.on('error', (err) => {
+  console.log('Error: ', err.message);
+})
