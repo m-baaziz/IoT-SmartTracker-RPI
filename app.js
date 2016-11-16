@@ -8,21 +8,15 @@ const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600, autoOpen: false })
 console.log("after port instanciation");
 
 function pullUpOn() {
-	gpio.open(pullUpPin, "output", (err) => {
-    gpio.write(pullUpPin, 1, () => {
-    	console.log("pull up on");
-      gpio.close(pullUpPin);
-    });
-	});
+  gpio.write(pullUpPin, 1, () => {
+  	console.log("pull up on");
+  });
 }
 
 function pullUpOff() {
-	gpio.open(pullUpPin, "output", (err) => {
-    gpio.write(pullUpPin, 0, () => {
-    	console.log("pull up off");
-      gpio.close(pullUpPin);
-    });
-	});
+	gpio.write(pullUpPin, 0, () => {
+  	console.log("pull up off");
+  });
 }
 
 function write(data, callback) {
@@ -38,6 +32,9 @@ function write(data, callback) {
 
 port.on('open', () => {
 	console.log("Port opened")
+	gpio.open(pullUpPin, "output", (err) => {
+		console.log("pin " + pullUpPin + " opened");
+	});
 	pullUpOn();
 	write('AT');
 });
@@ -52,6 +49,7 @@ port.on('data', (data) => {
 port.on('error', (err) => {
   console.log('Error: ', err.message);
   pullUpOn();
+  gpio.close(pullUpPin);
 })
 
 port.open();
