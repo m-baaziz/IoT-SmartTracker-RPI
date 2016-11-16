@@ -24,6 +24,7 @@ port.on('error', (err) => {
 
 function loop() {
 	setInterval(() => {
+		console.log("sending Ping ...");
 		port.write('P');
 	}, 2000)
 }
