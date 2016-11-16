@@ -29,7 +29,9 @@ function write(data, callback) {
 	pullUpOff();
 	port.write(data, () => {
 		port.drain();
-		callback();
+		if (typeof callback == "function") {
+			callback();
+		}
 		pullUpOn();
 	})
 }
