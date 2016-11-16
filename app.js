@@ -8,11 +8,12 @@ console.log("after port instanciation");
 port.on('open', () => {
 	console.log("Port opened")
 	for (let i = 0; i < 10; i++) {
-		console.log("sending AT : " + i);
-		port.write('AT', () => {
-			port.drain();
-		});
-		setTimeout(() => {}, 2000);
+		setTimeout(() => {
+			console.log("sending AT : " + i);
+			port.write('AT', () => {
+				port.drain();
+			});
+		}, 2000);
 	}
 	// port.write('AT', () => {
 	// 	port.drain();
