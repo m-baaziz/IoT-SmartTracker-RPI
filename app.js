@@ -11,7 +11,7 @@ function pullUpOn() {
 	gpio.open(pullUpPin, "output", (err) => {
     gpio.write(pullUpPin, 1, () => {
     	console.log("pull up on");
-      gpio.close(16);
+      gpio.close(pullUpPin);
     });
 	});
 }
@@ -20,7 +20,7 @@ function pullUpOff() {
 	gpio.open(pullUpPin, "output", (err) => {
     gpio.write(pullUpPin, 0, () => {
     	console.log("pull up off");
-      gpio.close(16);
+      gpio.close(pullUpPin);
     });
 	});
 }
