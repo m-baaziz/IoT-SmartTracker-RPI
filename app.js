@@ -32,6 +32,7 @@ function write(data, callback) {
 
 port.on('open', () => {
 	console.log("Port opened")
+	gpio.close(pullUpPin);
 	gpio.open(pullUpPin, "output", (err) => {
 		console.log("pin " + pullUpPin + " opened");
 		pullUpOn();
