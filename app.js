@@ -13,7 +13,7 @@ port.on('open', () => {
 			port.write('AT', () => {
 				port.drain();
 			});
-		}, 2000);
+		}, 2000 * (i+1));
 	}
 	// port.write('AT', () => {
 	// 	port.drain();
