@@ -34,9 +34,9 @@ port.on('open', () => {
 	console.log("Port opened")
 	gpio.open(pullUpPin, "output", (err) => {
 		console.log("pin " + pullUpPin + " opened");
+		pullUpOn();
+		write('AT');
 	});
-	pullUpOn();
-	write('AT');
 });
 
 port.on('data', (data) => {
