@@ -8,11 +8,14 @@ console.log("after port instanciation");
 port.on('open', () => {
 	console.log("Port opened")
 	port.write('AT');
-	port.write(new Buffer('AT'));
+	//port.write(new Buffer('AT'));
 });
 
 port.on('data', (data) => {
   console.log('Data: ' + data);
+  if (data == 'P') {
+    port.write('A');
+  }
 });
 
 port.on('error', (err) => {
