@@ -8,7 +8,7 @@ console.log("after port instanciation");
 
 port.on('open', () => {
 	console.log("Port opened");
-	loop();
+	//loop();
 });
 
 port.on('data', (data) => {
