@@ -13,9 +13,10 @@ client.on('message', (msg, rinfo) => {
 
 client.on('listening', () => {
 	client.setBroadcast(true);
+	
 	setInterval(() => {
 		const message = new Buffer("PING");
-		client.send(message, 0, 4, 950, "10.0.0.2", () => {
+		client.send(message, 0, 4, 950, "10.0.0.255", () => {
 			console.log("ping sent");
 		});
 	}, 2000)
