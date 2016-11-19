@@ -13,7 +13,8 @@ client.on('message', (msg, rinfo) => {
 
 client.on('listening', () => {
 	setInterval(() => {
-		client.send("PING", 950, "10.0.0.2", () => {
+		const message = Buffer.from("PING");
+		client.send(message, 950, "10.0.0.2", () => {
 			console.log("ping sent");
 		});
 	}, 2000)
