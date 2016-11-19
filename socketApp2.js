@@ -1,7 +1,11 @@
 import dgram from 'dgram'
 
 const client = dgram.createSocket('udp4');
-client.setBroadcast(true)
+try {
+	client.setBroadcast(true)
+} catch (e) {
+	console.log(e);
+}
 
 client.on('error', (error) => {
 	console.log(`client error : ${error}`);
