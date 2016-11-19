@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {},
   "dependencies": {
+    "dgram": "^1.0.1",
     "pi-gpio": "0.0.8",
     "serialport": "^4.0.6"
   },
