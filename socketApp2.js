@@ -1,6 +1,7 @@
 import dgram from 'dgram'
 
 const client = dgram.createSocket('udp4');
+client.setBroadcast(true)
 
 client.on('error', (error) => {
 	console.log(`client error : ${error}`);
@@ -13,8 +14,8 @@ client.on('message', (msg, rinfo) => {
 
 client.on('listening', () => {
 	setInterval(() => {
-		const message = Buffer.from("PING");
-		client.send(message, 950, "10.0.0.2", () => {
+		const message = new Buffer("PING");
+		client.send(message, 0, 4, 950, "10.0.0.2", () => {
 			console.log("ping sent");
 		});
 	}, 2000)
