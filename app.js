@@ -6,15 +6,15 @@ import events from 'events'
 const server = dgram.createSocket('udp4');
 
 console.log("before port instanciation");
+const accelerometerPort = new SerialPort("/dev/ttyUSB0", { baudrate: 9600, autoOpen: false });
 const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600, autoOpen: false });
 console.log("after port instanciation");
 
-const accelerometerPort = new SerialPort("/dev/ttyUSB0", { baudrate: 9600, autoOpen: false });
 
 const accelerometer = new events.EventEmitter();
 
 accelerometerPort.on('open', () => {
-	console.log("Port opened");
+	console.log("acceleremeter Port opened");
 });
 
 accelerometerPort.on('error', (err) => {
@@ -33,7 +33,7 @@ let scanId = 0;
 let ownerIsNear = false;
 
 accelerometer.on('motion', () => {
-	owerIsNear = false;
+	ownerIsNear = false;
 	bluetoothPing();
 })
 
@@ -53,7 +53,7 @@ port.on('error', (err) => {
 
 function bluetoothPing() {
 	let stop = false;
-	owerIsNear = false;
+	ownerIsNear = false;
 	setTimeout(() => {
 		stop = true;
 	}, 60000)
@@ -62,7 +62,7 @@ function bluetoothPing() {
 		port.write('P');
 		if (stop) {
 			if (ownerIsNear == false) alert();
-			break;
+			return;
 		}
 	}, 2000);
 
@@ -100,6 +100,7 @@ function alert() {
 }
 
 port.open();
+accelerometerPort.open();
 
 server.on('error', (error) => {
 	console.log(`server error : ${error}`);
