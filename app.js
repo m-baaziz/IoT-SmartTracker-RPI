@@ -23,12 +23,12 @@ port.on('error', (err) => {
 })
 
 
-function loop() {
-	setInterval(() => {
-		console.log("sending Ping ...");
-		port.write('P');
-	}, 2000)
-}
+// function loop() {
+// 	setInterval(() => {
+// 		console.log("sending Ping ...");
+// 		port.write('P');
+// 	}, 2000)
+// }
 
 port.open();
 
@@ -41,7 +41,9 @@ server.on('error', (error) => {
 
 server.on('message', (msg, rinfo) => {
 	console.log(`${rinfo.address} : ${msg} (port : ${rinfo.port})`)
-	port.write(msg);
+	port.write(msg, () => {
+		console.log("sent by bluetooth");
+	});
 })
 
 server.on('listening', () => {
