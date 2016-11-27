@@ -17,7 +17,16 @@ client.on('listening', () => {
 
 	wifiscanner.scan((error, data) => {
 		console.log(`error : ${error}`);
-		console.log('data : ',data);
+		console.log('scan result : ',data);
+
+		for (let i = 0; i < data.length; i++) {
+			const objectToSend = {"mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level};
+			let jsonToSend = JSON.stringify(objectToSend)
+			const msg = new Buffer(jsonToSend);
+			client.send(msg, 0, jsonToSend.length, 950, "10.0.0.255", () => {
+				console.log("data sent : " + jsonToSend.length);
+			})
+		}
 	})
 	
 	// setInterval(() => {
