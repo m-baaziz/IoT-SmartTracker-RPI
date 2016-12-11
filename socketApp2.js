@@ -22,13 +22,14 @@ client.on('listening', () => {
 		console.log('scan result : ',data);
 
 		for (let i = 0; i < data.length; i++) {
-			const objectToSend = { "mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level, scanId, sequenceNb: i };
+			const objectToSend = { "mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level, `${scanId}`, moreSequence: i<data.length-1 ? "1" : "0" };
 			let jsonToSend = JSON.stringify(objectToSend)
 			const msg = new Buffer(jsonToSend);
 			client.send(msg, 0, jsonToSend.length, 950, "10.0.0.255", () => {
 				console.log("data sent : " + jsonToSend.length);
 			})
 		}
+		scanId += 1;
 	})
 	
 	// setInterval(() => {

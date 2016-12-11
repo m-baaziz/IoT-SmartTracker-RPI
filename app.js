@@ -7,7 +7,7 @@ console.log("after port instanciation");
 
 port.on('open', () => {
 	console.log("Port opened");
-	loop();
+	//loop();
 });
 
 port.on('data', (data) => {
@@ -43,11 +43,16 @@ server.on('message', (msg, rinfo) => {
 	// try to parse msg as json : if succeed
 	  // send "D" then add to the json the sender mac and ip, send msg, then finally send "E"
 	// else  if not succeed dont send to bluetooth
-	port.write('S');
-	port.write(msg, () => {
+	try {
+		let msgJson = JSON.parse(msg);
+		msgJson.senderIp = rinfo.address;
+	} catch (e) {
+		console.log(e);
+		return;
+	}
+	port.write(JSON.stringify(msgJson), () => {
 		console.log("sent by bluetooth");
 	});
-	port.write('E');
 })
 
 server.on('listening', () => {
