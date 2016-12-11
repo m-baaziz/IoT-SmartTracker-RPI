@@ -1,14 +1,13 @@
-import gpio from "pi-gpio"
 import SerialPort from "serialport"
 import dgram from 'dgram'
 
 console.log("before port instanciation");
-const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600, autoOpen: false });
+const port = new SerialPort("/dev/tty.Bluetooth-Incoming-Port", { baudrate: 9600, autoOpen: false });
 console.log("after port instanciation");
 
 port.on('open', () => {
 	console.log("Port opened");
-	//loop();
+	loop();
 });
 
 port.on('data', (data) => {
@@ -23,12 +22,12 @@ port.on('error', (err) => {
 })
 
 
-// function loop() {
-// 	setInterval(() => {
-// 		console.log("sending Ping ...");
-// 		port.write('P');
-// 	}, 2000)
-// }
+function loop() {
+	setInterval(() => {
+		console.log("sending Ping ...");
+		port.write('P');
+	}, 2000)
+}
 
 port.open();
 
@@ -41,9 +40,14 @@ server.on('error', (error) => {
 
 server.on('message', (msg, rinfo) => {
 	console.log(`${rinfo.address} : ${msg} (port : ${rinfo.port})`)
+	// try to parse msg as json : if succeed
+	  // send "D" then add to the json the sender mac and ip, send msg, then finally send "E"
+	// else  if not succeed dont send to bluetooth
+	port.write('S');
 	port.write(msg, () => {
 		console.log("sent by bluetooth");
 	});
+	port.write('E');
 })
 
 server.on('listening', () => {
@@ -52,3 +56,7 @@ server.on('listening', () => {
 })
 
 server.bind(950);
+
+process.on('SIGTERM', () => {
+	console.log("APP CLOSING")
+})

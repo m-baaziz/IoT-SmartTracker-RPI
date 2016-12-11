@@ -15,12 +15,14 @@ client.on('message', (msg, rinfo) => {
 client.on('listening', () => {
 	client.setBroadcast(true);
 
+	let scanId = 0;
+
 	wifiscanner.scan((error, data) => {
 		console.log(`error : ${error}`);
 		console.log('scan result : ',data);
 
 		for (let i = 0; i < data.length; i++) {
-			const objectToSend = {"mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level};
+			const objectToSend = { "mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level, scanId, sequenceNb: i };
 			let jsonToSend = JSON.stringify(objectToSend)
 			const msg = new Buffer(jsonToSend);
 			client.send(msg, 0, jsonToSend.length, 950, "10.0.0.255", () => {
