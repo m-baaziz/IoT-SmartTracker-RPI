@@ -40,11 +40,12 @@ server.on('error', (error) => {
 
 server.on('message', (msg, rinfo) => {
 	console.log(`${rinfo.address} : ${msg} (port : ${rinfo.port})`)
+	let msgJson = {};
 	// try to parse msg as json : if succeed
 	  // send "D" then add to the json the sender mac and ip, send msg, then finally send "E"
 	// else  if not succeed dont send to bluetooth
 	try {
-		let msgJson = JSON.parse(msg);
+		msgJson = JSON.parse(msg);
 		msgJson.senderIp = rinfo.address;
 	} catch (e) {
 		console.log(e);
