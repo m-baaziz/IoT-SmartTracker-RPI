@@ -5,7 +5,7 @@ import wifiscanner from 'node-wifiscanner'
 const server = dgram.createSocket('udp4');
 
 console.log("before port instanciation");
-const port = new SerialPort("/dev/tty.Bluetooth-Incoming-Port", { baudrate: 9600, autoOpen: false });
+const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600, autoOpen: false });
 console.log("after port instanciation");
 
 // let rebroadcastedMessages = { senderIp: [ scanIds ... ] }
@@ -23,6 +23,7 @@ let ownerIsNear = false;
 
 port.on('open', () => {
 	console.log("Port opened");
+	bluetoothPing();
 });
 
 port.on('error', (err) => {
@@ -42,7 +43,7 @@ function bluetoothPing() {
 port.on('data', (data) => {
   console.log('Data: ' + data);
   if (data == 'A') {
-  	// ownerIsNear = true;
+  	ownerIsNear = true;
   }
 });
 
