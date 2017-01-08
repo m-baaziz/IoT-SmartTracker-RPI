@@ -1,11 +1,9 @@
-const EventEmitter = require('events');
+import events from 'events';
 import gpio from 'pi-gpio'
 
 console.log("start")
 
-class Accelerator extends EventEmitter {}
-
-const accelerator = new Accelerator();
+const accelerator = new events.EventEmitter();
 
 accelerator.on('vibration', () => {
 	console.log("VIBRATION");
