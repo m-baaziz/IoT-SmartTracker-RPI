@@ -14,7 +14,7 @@ gpio.open(16, "input", (error) => {
   setInterval(() => {
 		gpio.read(16, (err, value) => {
 	    if(err) console.log(err);
-	    accelerator.emit('vibration')
+	    if (value == 1) accelerator.emit('vibration')
 		});
 	}, 50);
 });
