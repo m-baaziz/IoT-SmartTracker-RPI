@@ -10,8 +10,8 @@ console.log("after port instanciation");
 
 // let rebroadcastedMessages = { senderIp: [ scanIds ... ] }
 
-let scanId = 0;
-let ownerIsNear = false;
+var scanId = 0;
+var ownerIsNear = false;
 
 // accelerator.on('motion', () => {
 	// bluetoothPing(); à executer pendant un moment
