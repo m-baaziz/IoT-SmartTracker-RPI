@@ -32,7 +32,7 @@ port.on('error', (err) => {
 
 
 function bluetoothPing() {
-	owerIsNear = false;
+	//owerIsNear = false;
 	setInterval(() => {
 		console.log("sending Ping ...");
 		port.write('P');
