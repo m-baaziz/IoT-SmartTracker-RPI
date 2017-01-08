@@ -1,9 +1,13 @@
 import gpio from 'pi-gpio'
 
 console.log("start")
-setInterval(() => {
-	gpio.read(16, (err, value) => {
-    if(err) console.log(err);
-    console.log("val : "+value);	// The current state of the pin 
-	});
-}, 1000);
+
+gpio.open(16, "input", (error) => {
+	if (error) console.log(error)
+  setInterval(() => {
+		gpio.read(16, (err, value) => {
+	    if(err) console.log(err);
+	    console.log("val : "+value);
+		});
+	}, 1000);
+});
