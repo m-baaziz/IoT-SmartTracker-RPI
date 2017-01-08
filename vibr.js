@@ -1,4 +1,4 @@
-import EventEmitter from 'events'
+const EventEmitter = require('events');
 import gpio from 'pi-gpio'
 
 console.log("start")
