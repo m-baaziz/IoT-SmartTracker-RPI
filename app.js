@@ -1,6 +1,7 @@
 import SerialPort from "serialport"
 import dgram from 'dgram'
 import wifiscanner from 'node-wifiscanner'
+import events from 'events'
 
 const server = dgram.createSocket('udp4');
 
@@ -8,16 +9,35 @@ console.log("before port instanciation");
 const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600, autoOpen: false });
 console.log("after port instanciation");
 
+const accelerometerPort = new SerialPort("/dev/ttyUSB0", { baudrate: 9600, autoOpen: false });
+
+const accelerometer = new events.EventEmitter();
+
+accelerometerPort.on('open', () => {
+	console.log("Port opened");
+});
+
+accelerometerPort.on('error', (err) => {
+  console.log('Error: ', err.message);
+})
+
+
+accelerometerPort.on('data', (data) => {
+  console.log('accelerometerPort Data: ' + data);
+  if (data == 'V') accelerometer.emit('motion');
+});
+
 // let rebroadcastedMessages = { senderIp: [ scanIds ... ] }
 
-var scanId = 0;
-var ownerIsNear = false;
+let scanId = 0;
+let ownerIsNear = false;
 
-// accelerator.on('motion', () => {
-	// bluetoothPing(); à executer pendant un moment
-//})
+accelerometer.on('motion', () => {
+	owerIsNear = false;
+	bluetoothPing();
+})
 
-// accelerator.on('stop', () => {
+// accelerometer.on('stop', () => {
 	// bluetoothPing(); à executer pendant un moment
 //})
 
@@ -32,11 +52,20 @@ port.on('error', (err) => {
 
 
 function bluetoothPing() {
-	//owerIsNear = false;
+	let stop = false;
+	owerIsNear = false;
+	setTimeout(() => {
+		stop = true;
+	}, 60000)
 	setInterval(() => {
 		console.log("sending Ping ...");
 		port.write('P');
+		if (stop) {
+			if (ownerIsNear == false) alert();
+			break;
+		}
 	}, 2000);
+
 	// set Timer : au bout de 1 minute (ou 30 sec), si owerIsNear est toujours false, -> alert();
 }
 
