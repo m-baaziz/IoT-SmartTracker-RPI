@@ -9,5 +9,5 @@ gpio.open(16, "input", (error) => {
 	    if(err) console.log(err);
 	    console.log("val : "+value);
 		});
-	}, 1000);
+	}, 200);
 });
