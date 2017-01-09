@@ -80,7 +80,7 @@ port.on('data', (data) => {
 // cette fonction broadcast le scan toutes les 5 secondes
 function alert() {
 	setInterval(() => {
-		client.setBroadcast(true);
+		server.setBroadcast(true);
 
 		wifiscanner.scan((error, data) => {
 			console.log(`error : ${error}`);
@@ -90,7 +90,7 @@ function alert() {
 				const objectToSend = { "mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level, scanId: `${scanId}`, moreSequence: i<data.length-1 ? "1" : "0" };
 				let jsonToSend = JSON.stringify(objectToSend)
 				const msg = new Buffer(jsonToSend);
-				client.send(msg, 0, jsonToSend.length, 950, "10.0.0.255", () => {
+				server.send(msg, 0, jsonToSend.length, 950, "10.0.0.255", () => {
 					console.log("data sent : " + jsonToSend.length);
 				})
 			}
