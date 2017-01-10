@@ -78,7 +78,7 @@ port.on('data', (data) => {
 
 // cette fonction broadcast le scan toutes les 5 secondes
 function alert() {
-	setInterval(() => {
+	setTimeout(() => {
 		server.setBroadcast(true);
 
 		wifiscanner.scan((error, data) => {
@@ -95,7 +95,7 @@ function alert() {
 			}
 			scanId += 1;
 		})
-		if (ownerIsNear) return;
+		if (!ownerIsNear) alert();
 	}, 5000);
 }
 
