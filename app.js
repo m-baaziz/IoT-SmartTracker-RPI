@@ -31,10 +31,13 @@ accelerometerPort.on('data', (data) => {
 
 let scanId = 0;
 let ownerIsNear = false;
+let isPinging = false;
 
 accelerometer.on('motion', () => {
 	ownerIsNear = false;
-	bluetoothPing();
+	if (!isPinging) {
+		bluetoothPing();
+	}
 })
 
 // accelerometer.on('stop', () => {
@@ -51,6 +54,7 @@ port.on('error', (err) => {
 
 
 function bluetoothPing() {
+	isPinging = true;
 	ownerIsNear = false;
 	const loopId = setInterval(() => {
 		console.log("sending Ping ...");
@@ -58,7 +62,11 @@ function bluetoothPing() {
 	}, 2000);
 	setTimeout(() => {
 		clearInterval(loopId);
-		if (ownerIsNear == false) alert();
+		if (ownerIsNear == false) {
+			console.log("PING call to alert");
+			alert();
+		}
+		isPinging = false;
 	}, 30000)
 	// set Timer : au bout de 1 minute (ou 30 sec), si owerIsNear est toujours false, -> alert();
 }
@@ -73,7 +81,6 @@ port.on('data', (data) => {
 
 // cette fonction broadcast le scan toutes les 5 secondes
 function alert() {
-	console.log("call to alert");
 	setTimeout(() => {
 		server.setBroadcast(true);
 
@@ -91,7 +98,10 @@ function alert() {
 			}
 			scanId += 1;
 		})
-		if (!ownerIsNear) alert();
+		if (!ownerIsNear) {
+			console.log("ALERT call to alert");
+			alert();
+		}
 	}, 5000);
 }
 
