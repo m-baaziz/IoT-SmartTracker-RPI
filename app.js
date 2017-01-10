@@ -43,7 +43,6 @@ accelerometer.on('motion', () => {
 
 port.on('open', () => {
 	console.log("Port opened");
-	bluetoothPing();
 });
 
 port.on('error', (err) => {
