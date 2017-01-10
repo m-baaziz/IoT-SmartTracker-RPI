@@ -51,20 +51,15 @@ port.on('error', (err) => {
 
 
 function bluetoothPing() {
-	let stop = false;
 	ownerIsNear = false;
-	setTimeout(() => {
-		stop = true;
-	}, 60000)
-	setInterval(() => {
+	const loopId = setInterval(() => {
 		console.log("sending Ping ...");
 		port.write('P');
-		if (stop) {
-			if (ownerIsNear == false) alert();
-			return;
-		}
 	}, 2000);
-
+	setTimeout(() => {
+		clearInterval(loopId);
+		if (ownerIsNear == false) alert();
+	}, 30000)
 	// set Timer : au bout de 1 minute (ou 30 sec), si owerIsNear est toujours false, -> alert();
 }
 
@@ -78,6 +73,7 @@ port.on('data', (data) => {
 
 // cette fonction broadcast le scan toutes les 5 secondes
 function alert() {
+	console.log("call to alert");
 	setTimeout(() => {
 		server.setBroadcast(true);
 
