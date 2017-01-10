@@ -96,6 +96,7 @@ function alert() {
 			}
 			scanId += 1;
 		})
+		if (ownerIsNear) return;
 	}, 5000);
 }
 
