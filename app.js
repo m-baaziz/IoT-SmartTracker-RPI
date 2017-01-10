@@ -81,28 +81,28 @@ port.on('data', (data) => {
 
 // cette fonction broadcast le scan toutes les 5 secondes
 function alert() {
-	setTimeout(() => {
-		server.setBroadcast(true);
+	server.setBroadcast(true);
 
-		wifiscanner.scan((error, data) => {
-			console.log(`error : ${error}`);
-			console.log('scan result : ',data);
+	wifiscanner.scan((error, data) => {
+		console.log(`error : ${error}`);
+		console.log('scan result : ',data);
 
-			for (let i = 0; i < data.length; i++) {
-				const objectToSend = { "mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level, scanId: `${scanId}`, moreSequence: i<data.length-1 ? "1" : "0" };
-				let jsonToSend = JSON.stringify(objectToSend)
-				const msg = new Buffer(jsonToSend);
-				server.send(msg, 0, jsonToSend.length, 950, "10.0.0.255", () => {
-					console.log("data sent : " + jsonToSend.length);
-				})
-			}
-			scanId += 1;
-		})
-		if (!ownerIsNear) {
-			console.log("ALERT call to alert");
-			alert();
+		for (let i = 0; i < data.length; i++) {
+			const objectToSend = { "mac": data[i].mac, "ssid": data[i].ssid, "signal_level": data[i].signal_level, scanId: `${scanId}`, moreSequence: i<data.length-1 ? "1" : "0" };
+			let jsonToSend = JSON.stringify(objectToSend)
+			const msg = new Buffer(jsonToSend);
+			server.send(msg, 0, jsonToSend.length, 950, "10.0.0.255", () => {
+				console.log("data sent : " + jsonToSend.length);
+			})
 		}
-	}, 5000);
+		scanId += 1;
+	})
+	if (!ownerIsNear) {
+		console.log("ALERT call to alert");
+		setTimeout(() => {
+			alert();
+		}, 5000);
+	}
 }
 
 port.open();
