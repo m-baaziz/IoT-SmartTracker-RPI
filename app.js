@@ -125,9 +125,11 @@ server.on('message', (msg, rinfo) => {
 
 	// si port fermé (pas connecté à son propriétaire), stocker en mémoire pendant 24 h.
 	// sinon ...
-	port.write(JSON.stringify(msgJson), () => {
-		console.log("sent by bluetooth");
-	});
+	if (ownerIsNear) {
+		port.write(JSON.stringify(msgJson), () => {
+			console.log("sent by bluetooth");
+		});
+	}
 })
 
 server.on('listening', () => {
