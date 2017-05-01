@@ -7,8 +7,8 @@ const server = dgram.createSocket('udp4');
 
 console.log("before port instanciation");
 const accelerometerPort = new SerialPort("/dev/ttyUSB0", { baudrate: 9600, autoOpen: false });
-const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600, autoOpen: false });
-console.log("after port instanciation");
+const port = new SerialPort("/dev/ttyAMA0", { baudrate: 9600, autoOpen: false }); // bluetooth port
+console.log("after bluetooth port instanciation");
 
 
 const accelerometer = new events.EventEmitter();
@@ -119,7 +119,7 @@ server.on('message', (msg, rinfo) => {
 		console.log(e);
 		return;
 	}
-	
+
 	if (ownerIsNear) {
 		port.write(JSON.stringify(msgJson), () => {
 			console.log("sent by bluetooth");
