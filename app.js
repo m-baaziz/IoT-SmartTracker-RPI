@@ -27,7 +27,6 @@ accelerometerPort.on('data', (data) => {
   if (data == 'V') accelerometer.emit('motion');
 });
 
-// let rebroadcastedMessages = { senderIp: [ scanIds ... ] }
 
 let scanId = 0;
 let ownerIsNear = false;
@@ -39,10 +38,6 @@ accelerometer.on('motion', () => {
 		bluetoothPing();
 	}
 })
-
-// accelerometer.on('stop', () => {
-	// bluetoothPing(); à executer pendant un moment
-//})
 
 port.on('open', () => {
 	console.log("Port opened");
@@ -68,7 +63,7 @@ function bluetoothPing() {
 		}
 		isPinging = false;
 	}, 30000)
-	// set Timer : au bout de 1 minute (ou 30 sec), si owerIsNear est toujours false, -> alert();
+	// set Timer : after 30 seconds, if ownerIsNear is still false -> alert()
 }
 
 port.on('data', (data) => {
@@ -79,7 +74,7 @@ port.on('data', (data) => {
 });
 
 
-// cette fonction broadcast le scan toutes les 5 secondes
+//  broadcasts an alert message every 5 seconds
 function alert() {
 	server.setBroadcast(true);
 
@@ -124,13 +119,7 @@ server.on('message', (msg, rinfo) => {
 		console.log(e);
 		return;
 	}
-
-	// re-broadcaster le même message si le scanId ne se trouve pas dans le tableau des scanId déjà re-broadcastés, du même émetteur.
-	// si message rebroadcasté avait le moreFragment à 0 => ajouter le scanId dans rebroadcastedMessages
 	
-
-	// si port fermé (pas connecté à son propriétaire), stocker en mémoire pendant 24 h.
-	// sinon ...
 	if (ownerIsNear) {
 		port.write(JSON.stringify(msgJson), () => {
 			console.log("sent by bluetooth");
